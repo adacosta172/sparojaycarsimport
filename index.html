@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Sparojay | Luxury Car Import</title>
+  <meta name="description" content="Direct Japan/Korea imports – luxury showroom, professional invoices, full customer garage.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js",
+        "firebase/storage": "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js"
+      }
+    }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0f1a;
+      color: #eef2ff;
+      scroll-behavior: smooth;
+      line-height: 1.5;
+    }
+    .glass {
+      background: rgba(10, 20, 35, 0.8);
+      backdrop-filter: blur(14px);
+      border-radius: 2rem;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+    .glass-card {
+      background: rgba(15, 25, 45, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 1.8rem;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.7);
+      box-shadow: 0 25px 40px -12px rgba(212,175,55,0.15);
+    }
+    .btn-primary {
+      background: linear-gradient(105deg, #D4AF37, #B8960C);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 3rem;
+      font-weight: 700;
+      color: #0a0f1a;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(212,175,55,0.4); }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #D4AF37;
+      color: #D4AF37;
+      padding: 8px 20px;
+      border-radius: 3rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-outline:hover { background: #D4AF37; color: #0a0f1a; transform: scale(1.02); }
+    .btn-green { background: #10b981; border: none; padding: 10px 24px; border-radius: 2rem; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-green:hover { background: #059669; transform: scale(1.02); }
+    .btn-blue { background: #3b82f6; border: none; padding: 8px 18px; border-radius: 2rem; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-blue:hover { background: #2563eb; }
+    .btn-orange { background: #f59e0b; border: none; padding: 8px 18px; border-radius: 2rem; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-orange:hover { background: #d97706; }
+    .btn-red { background: #ef4444; border: none; padding: 8px 18px; border-radius: 2rem; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-red:hover { background: #dc2626; }
+    .btn-purple { background: #8b5cf6; border: none; padding: 8px 18px; border-radius: 2rem; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-purple:hover { background: #7c3aed; }
+    .btn-dark { background: #1e293b; border: none; padding: 8px 18px; border-radius: 2rem; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-dark:hover { background: #0f172a; }
+    .btn-large-green {
+      background: #10b981;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 3rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+    }
+    .btn-large-green:hover { transform: scale(1.02); background: #059669; }
+    /* Enhanced Back Button */
+    .back-btn {
+      background: linear-gradient(135deg, #D4AF37, #B8960C);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0a0f1a;
+      transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(212,175,55,0.4);
+      background: linear-gradient(135deg, #c99700, #a07800);
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #D4AF37, #F5D06F);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-family: 'Space Grotesk', monospace;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: #D4AF37; }
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: radial-gradient(ellipse at 70% 30%, rgba(212,175,55,0.1), transparent);
+      padding: 2rem 1rem;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-family: 'Space Grotesk', monospace;
+      background: linear-gradient(135deg, #fff, #D4AF37);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    .car-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .car-card {
+      background: rgba(10, 20, 35, 0.8);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(212,175,55,0.2);
+    }
+    .car-card:hover {
+      transform: translateY(-8px);
+      border-color: #D4AF37;
+      box-shadow: 0 20px 30px -15px rgba(0,0,0,0.4);
+    }
+    .carousel-container {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      background: #111827;
+    }
+    .carousel-slide {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.3s ease;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .carousel-btn:hover { background: rgba(0,0,0,0.8); }
+    .carousel-btn.prev { left: 8px; }
+    .carousel-btn.next { right: 8px; }
+    .car-info { padding: 1.2rem; }
+    .car-price { font-size: 1.4rem; font-weight: 700; color: #D4AF37; margin: 0.5rem 0; }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .badge-available { background: #10b981; }
+    .badge-reserved { background: #f59e0b; }
+    .badge-sold { background: #ef4444; }
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .enquiry-btn, .save-car-btn, .share-btn-trigger {
+      border: none;
+      border-radius: 2rem;
+      padding: 8px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+    .enquiry-btn {
+      background: #10b981;
+      color: white;
+    }
+    .enquiry-btn:hover { background: #059669; transform: translateY(-2px); }
+    .save-car-btn {
+      background: linear-gradient(135deg, #c99700, #f5d06f);
+      color: #111827;
+    }
+    .save-car-btn:hover, .share-btn-trigger:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+    .share-btn-trigger {
+      background: linear-gradient(135deg, #c99700, #f5d06f);
+      color: #111827;
+    }
+    .share-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .share-dropdown-content {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      background: #1e293b;
+      min-width: 140px;
+      border-radius: 1rem;
+      padding: 8px;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .share-dropdown-content button {
+      background: none;
+      border: none;
+      padding: 6px 12px;
+      text-align: left;
+      color: white;
+      cursor: pointer;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+    .share-dropdown-content button:hover {
+      background: #2d3a4a;
+    }
+    .share-dropdown-content button i {
+      width: 20px;
+    }
+    .dashboard-tabs, .admin-tabs {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      flex-wrap: wrap;
+    }
+    .dash-tab-btn, .admin-tab-btn {
+      background: rgba(30,41,59,0.6);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .dash-tab-btn.active, .admin-tab-btn.active {
+      background: #D4AF37;
+      color: #0a0f1a;
+      box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+    }
+    .form-card {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 1.8rem;
+      padding: 1.8rem;
+      border: 1px solid rgba(212,175,55,0.3);
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #D4AF37;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(20,30,45,0.9);
+      border: 1px solid #2d3a4a;
+      border-radius: 1.5rem;
+      color: white;
+      transition: 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #D4AF37;
+      box-shadow: 0 0 0 2px rgba(212,175,55,0.3);
+    }
+    .invoice-container {
+      background: white;
+      color: #1e293b;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 3px solid #D4AF37;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .invoice-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #D4AF37, #B8960C);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    .invoice-table th, .invoice-table td {
+      border: 1px solid #e2e8f0;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    .total-row { background: #f0fdf4; font-weight: bold; }
+    .bank-details {
+      background: #fefce8;
+      padding: 1rem;
+      border-radius: 1rem;
+      border-left: 4px solid #D4AF37;
+      margin: 1rem 0;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      backdrop-filter: blur(10px);
+    }
+    .modal-content {
+      max-width: 90%;
+      width: 650px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.8rem;
+      border-radius: 2rem;
+      background: rgba(15, 25, 35, 0.95);
+    }
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #1e293b;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem;
+      z-index: 3000;
+      animation: fadeInUp 0.3s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .float-wa {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .float-wa:hover { transform: scale(1.05); }
+    @media print {
+      .invoice-actions, .print-invoice-btn, .close-invoice-btn, button { display: none !important; }
+      body { background: white; }
+      .modal-content { background: white; box-shadow: none; }
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .navbar { flex-direction: column; text-align: center; }
+      .nav-links { justify-content: center; }
+      .container { padding: 1rem; }
+      .car-grid { grid-template-columns: 1fr; }
+      .dashboard-tabs, .admin-tabs { justify-content: center; }
+      .dash-tab-btn, .admin-tab-btn { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+      .form-card { padding: 1rem; }
+      .modal-content { width: 95%; padding: 1rem; }
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid rgba(212,175,55,0.2);
+      margin-top: 2rem;
+      font-size: 0.8rem;
+    }
+    .wishlist-card, .notification-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .wishlist-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+    .notification-card.unread {
+      border-left: 5px solid #D4AF37;
+      background: rgba(212,175,55,0.1);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .gallery-item {
+      background: rgba(0,0,0,0.3);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    .gallery-item img, .gallery-item video {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .gallery-item .info {
+      padding: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="navbar">
+    <div class="logo">⚡ SPAROJAY<span style="color:white;">ENT</span></div>
+    <div class="nav-links">
+      <a href="#" id="navHome">Home</a>
+      <a href="#" id="navShowroom">Showroom</a>
+      <a href="#" id="navPreOrder">Pre‑Order</a>
+      <a href="#" id="navTrack">Track</a>
+      <a href="#" id="navDashboard">My Garage</a>
+      <a href="#" id="navGallery">Shipped Gallery</a>
+      <span id="adminNavLink" style="display:none;"><a href="#" id="navAdmin">Admin Panel</a></span>
+      <a href="#" id="authBtn" class="btn-outline">Login</a>
+      <span id="userDisplay" style="color:#D4AF37;"></span>
+      <span id="logoutSpan" style="display:none; cursor:pointer;" class="btn-outline">Logout</span>
+      <span id="notificationIcon" style="display:none;"><i class="fas fa-bell"></i><span id="notifCount" style="background:#ef4444; border-radius:50%; padding:0 5px; margin-left:3px;">0</span></span>
+    </div>
+  </div>
+</header>
+<main id="app"></main>
+<footer>
+  <p><i class="fab fa-whatsapp"></i> WhatsApp: +44 7348 624530 | <i class="fas fa-phone-alt"></i> +233 25 608 2631 / +1 347 268 2075 | <i class="far fa-envelope"></i> Sparojay1023@gmail.com</p>
+  <p>© 2025 — Direct Japan/Korea Import | Pro‑Forma Invoices</p>
+</footer>
+<div class="float-wa" id="floatWhatsApp"><i class="fab fa-whatsapp"></i></div>
+
+<script type="module">
+  import { initializeApp } from "firebase/app";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, signOut } from "firebase/auth";
+  import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, query, where, getDocs, setDoc, getDoc, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore";
+  import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC_x8sb9AMxu_2fVPd13xPxi0WqY-dMMrs",
+    authDomain: "sparojaycarsimport.firebaseapp.com",
+    databaseURL: "https://sparojaycarsimport-default-rtdb.firebaseio.com",
+    projectId: "sparojaycarsimport",
+    storageBucket: "sparojaycarsimport.firebasestorage.app",
+    messagingSenderId: "914529176756",
+    appId: "1:914529176756:web:6227ef9c18583beee75be1",
+    measurementId: "G-RFMJWVP14F"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+  const ADMIN_UID = "btRBgPhSsiPsHtBRsqdUIQUqm7E3";
+
+  let currentUser = null;
+  let unsubscribeCars = null;
+  let currentCurrency = 'GHS';
+  const carsCache = {};
+
+  function showToast(msg, type = "success") {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i> ${msg}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  function formatMoney(amount, currency = 'GHS') {
+    const sym = currency === 'GHS' ? 'GHS ' : currency === 'USD' ? '$ ' : currency === 'EUR' ? '€ ' : '£ ';
+    return sym + Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2 });
+  }
+
+  function parsePrice(priceStr) { return parseFloat(priceStr.replace(/[^0-9.-]+/g, '')) || 0; }
+
+  function safeText(value, fallback = "") {
+    if (value === undefined || value === null || value === "undefined") return fallback;
+    return String(value);
+  }
+
+  function getCarTitle(data) {
+    const brand = safeText(data.carBrand || data.brand, "Vehicle");
+    const model = safeText(data.carModel || data.model, "");
+    const year = safeText(data.carYear || data.year, "");
+    return `${brand} ${model}${year ? ` (${year})` : ""}`.trim();
+  }
+
+  function formatCurrency(value) {
+    const num = Number(value || 0);
+    return `GHS ${num.toLocaleString("en-GH", { minimumFractionDigits: 2 })}`;
+  }
+
+  function renderPage(content, pageName, addBack = true) {
+    if (!window.pageHistory) window.pageHistory = ['home'];
+    if (window.pageHistory[window.pageHistory.length-1] !== pageName) window.pageHistory.push(pageName);
+    const backHtml = (addBack && pageName !== 'home') ? `<button class="back-btn" id="globalBackBtn"><i class="fas fa-arrow-left"></i> Back</button>` : '';
+    document.getElementById('app').innerHTML = backHtml + content;
+    if (addBack && pageName !== 'home') {
+      const backBtn = document.getElementById('globalBackBtn');
+      if (backBtn) backBtn.onclick = () => {
+        if (window.pageHistory.length > 1) {
+          window.pageHistory.pop();
+          const prevPage = window.pageHistory.pop();
+          if (prevPage === 'showroom') renderShowroom();
+          else if (prevPage === 'preorder') renderPreOrderForm();
+          else if (prevPage === 'track') renderTracking();
+          else if (prevPage === 'dashboard') renderCustomerDashboard();
+          else if (prevPage === 'gallery') renderPublicGallery();
+          else if (prevPage === 'admin') renderAdminPanel();
+          else renderHome();
+        } else renderHome();
+      };
+    }
+  }
+
+  function setupPasswordToggle(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (input && icon) icon.addEventListener('click', () => { const type = input.getAttribute('type') === 'password' ? 'text' : 'password'; input.setAttribute('type', type); icon.classList.toggle('fa-eye'); icon.classList.toggle('fa-eye-slash'); });
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      let role;
+      if (!userSnap.exists()) {
+        role = (user.uid === ADMIN_UID) ? "admin" : "customer";
+        const userData = { fullName: user.displayName || user.email.split('@')[0], email: user.email, phone: "", address: "", dob: "", avatar: "", role: role, createdAt: new Date(), updatedAt: new Date() };
+        await setDoc(userRef, userData);
+        currentUser = { uid: user.uid, ...userData };
+      } else {
+        const data = userSnap.data();
+        if (user.uid === ADMIN_UID && data.role !== "admin") {
+          await updateDoc(userRef, { role: "admin", updatedAt: new Date() });
+          data.role = "admin";
+        }
+        currentUser = { uid: user.uid, ...data };
+      }
+      updateNavUI();
+      if (currentUser.role === 'admin') renderAdminPanel();
+      else renderHome();
+    } else {
+      currentUser = null;
+      updateNavUI();
+      renderHome();
+    }
+  });
+
+  function updateNavUI() {
+    const authBtn = document.getElementById('authBtn'), userSpan = document.getElementById('userDisplay'), logoutSpan = document.getElementById('logoutSpan');
+    const adminNav = document.getElementById('adminNavLink');
+    const notifIcon = document.getElementById('notificationIcon');
+    if (currentUser) {
+      authBtn.style.display = 'none';
+      userSpan.innerHTML = `👋 ${currentUser.fullName} ${currentUser.avatar ? `<img src="${currentUser.avatar}" style="width:28px; height:28px; border-radius:50%; margin-left:5px;">` : ''}`;
+      userSpan.style.display = 'inline-flex'; userSpan.style.alignItems = 'center'; userSpan.style.gap = '6px';
+      logoutSpan.style.display = 'inline-block';
+      adminNav.style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
+      notifIcon.style.display = currentUser.role === 'customer' ? 'inline-block' : 'none';
+      if (currentUser.role === 'customer') loadNotificationCount();
+    } else {
+      authBtn.style.display = 'inline-block';
+      userSpan.style.display = 'none';
+      logoutSpan.style.display = 'none';
+      adminNav.style.display = 'none';
+      notifIcon.style.display = 'none';
+    }
+  }
+
+  async function logout() { await signOut(auth); showToast("Logged out", "info"); }
+
+  async function loadNotificationCount() {
+    if (!currentUser) return;
+    const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid), where("read", "==", false));
+    const snap = await getDocs(q);
+    const countSpan = document.getElementById('notifCount');
+    if (countSpan) countSpan.innerText = snap.size;
+  }
+
+  async function createNotification(data) {
+    await addDoc(collection(db, "notifications"), {
+      userId: data.userId,
+      title: data.title || "Notification",
+      message: data.message || "",
+      type: data.type || "general",
+      relatedCollection: data.relatedCollection || "",
+      relatedId: data.relatedId || "",
+      read: false,
+      createdAt: serverTimestamp()
+    });
+  }
+
+  // Share functions
+  function getCarShareUrl(carId) {
+    return `${window.location.origin}${window.location.pathname}?car=${encodeURIComponent(carId)}`;
+  }
+
+  function getCarShareText(car) {
+    const title = `${safeText(car.brand, "Vehicle")} ${safeText(car.model, "")}`.trim();
+    const year = safeText(car.year, "");
+    const price = formatCurrency(car.price || 0);
+    const status = safeText(car.status, "Available");
+    const link = getCarShareUrl(car.id);
+    return `Check out this vehicle:\n\n${title}\nYear: ${year || "Not specified"}\nPrice: ${price}\nStatus: ${status}\n\nView details:\n${link}`;
+  }
+
+  async function shareCar(car, platform) {
+    const text = getCarShareText(car);
+    const link = getCarShareUrl(car.id);
+    const encodedText = encodeURIComponent(text);
+    const encodedLink = encodeURIComponent(link);
+    if (platform === "whatsapp") {
+      window.open(`https://wa.me/?text=${encodedText}`, "_blank");
+    } else if (platform === "facebook") {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedLink}`, "_blank");
+    } else if (platform === "sms") {
+      window.location.href = `sms:?&body=${encodedText}`;
+    } else if (platform === "copy") {
+      await navigator.clipboard.writeText(link);
+      showToast("Car link copied to clipboard!");
+    } else if (platform === "more") {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${safeText(car.brand, "Vehicle")} ${safeText(car.model, "")}`.trim(),
+          text: text,
+          url: link
+        });
+      } else {
+        await navigator.clipboard.writeText(link);
+        showToast("Sharing not supported, link copied instead.");
+      }
+    }
+  }
+
+  function shareCarById(carId, platform) {
+    const car = carsCache[carId];
+    if (!car) {
+      showToast("Car details are still loading. Please try again.", "error");
+      return;
+    }
+    shareCar(car, platform);
+  }
+
+  async function saveCarToWishlist(car) {
+    if (!currentUser) {
+      showToast("Please log in to save this car.", "error");
+      return;
+    }
+    const wishlistQuery = query(collection(db, "wishlists"), where("customerId", "==", currentUser.uid), where("carId", "==", car.id));
+    const existing = await getDocs(wishlistQuery);
+    if (!existing.empty) {
+      showToast("This car is already saved in your Wishlist.", "info");
+      return;
+    }
+    await addDoc(collection(db, "wishlists"), {
+      customerId: currentUser.uid,
+      carId: car.id,
+      brand: safeText(car.brand, ""),
+      model: safeText(car.model, ""),
+      year: safeText(car.year, ""),
+      price: Number(car.price || 0),
+      imageUrl: safeText(car.imageUrl, ""),
+      status: safeText(car.status, "Available"),
+      createdAt: serverTimestamp()
+    });
+    showToast("Car saved to Wishlist!");
+    const wishlistContainer = document.getElementById('dashContent');
+    if (wishlistContainer && document.querySelector('.dash-tab-btn.active[data-tab="wishlist"]')) {
+      loadWishlist(wishlistContainer);
+    }
+  }
+
+  function saveCarById(carId) {
+    const car = carsCache[carId];
+    if (!car) {
+      showToast("Car details still loading. Please try again.", "error");
+      return;
+    }
+    saveCarToWishlist(car);
+  }
+
+  async function removeWishlistCar(wishlistId) {
+    await deleteDoc(doc(db, "wishlists", wishlistId));
+    showToast("Removed from wishlist");
+    const container = document.getElementById('dashContent');
+    if (container && document.querySelector('.dash-tab-btn.active[data-tab="wishlist"]')) {
+      loadWishlist(container);
+    }
+  }
+
+  function loadWishlist(container) {
+    if (!currentUser) return;
+    const q = query(collection(db, "wishlists"), where("customerId", "==", currentUser.uid));
+    onSnapshot(q, (snapshot) => {
+      if (!container) return;
+      if (snapshot.empty) {
+        container.innerHTML = '<div class="glass" style="padding:1rem;">No saved cars yet.</div>';
+        return;
+      }
+      container.innerHTML = snapshot.docs.map(docSnap => {
+        const car = docSnap.data();
+        return `
+          <div class="wishlist-card">
+            <img src="${car.imageUrl || 'https://via.placeholder.com/80'}" alt="${car.brand}">
+            <div style="flex:1;">
+              <strong>${safeText(car.brand)} ${safeText(car.model)} (${car.year || 'Year?'})</strong><br>
+              ${formatCurrency(car.price || 0)}<br>
+              Status: ${safeText(car.status, "Available")}<br>
+              <small>Saved: ${car.createdAt?.toDate().toLocaleString()}</small>
+            </div>
+            <button class="btn-red remove-wishlist" data-id="${docSnap.id}">Remove</button>
+          </div>
+        `;
+      }).join('');
+      document.querySelectorAll('.remove-wishlist').forEach(btn => btn.onclick = () => removeWishlistCar(btn.dataset.id));
+    });
+  }
+
+  function loadUserNotifications(container) {
+    if (!currentUser) return;
+    const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      if (!container) return;
+      if (snapshot.empty) { container.innerHTML = '<div class="glass" style="padding:1rem;">No notifications yet.</div>'; return; }
+      const notifs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      container.innerHTML = notifs.map(n => `
+        <div class="notification-card ${n.read ? "read" : "unread"}">
+          <div style="flex:1;">
+            <strong>${safeText(n.title, "Notification")}</strong><br>
+            ${safeText(n.message)}<br>
+            <small>${n.createdAt?.toDate().toLocaleString()}</small>
+          </div>
+          ${!n.read ? `<button class="btn-dark mark-read-btn" data-id="${n.id}">Mark read</button>` : ''}
+        </div>
+      `).join('');
+      document.querySelectorAll('.mark-read-btn').forEach(btn => btn.onclick = async () => {
+        await updateDoc(doc(db, "notifications", btn.dataset.id), { read: true, updatedAt: serverTimestamp() });
+        loadUserNotifications(container);
+        loadNotificationCount();
+      });
+    });
+  }
+
+  function showAuthModal() {
+    const modalDiv = document.createElement('div'); modalDiv.className = 'modal';
+    let mode = 'login';
+    const render = () => {
+      if (mode === 'login') return `
+        <h3>Welcome Back</h3>
+        <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required></div>
+        <div class="form-group"><label>Password</label><div class="password-wrapper"><input type="password" id="loginPassword" required><i class="fas fa-eye toggle-password" id="toggleLoginPwd"></i></div></div>
+        <button id="submitAuthBtn" class="btn-primary" style="width:100%; margin-top:0.5rem;">Login</button>
+        <p style="margin-top:0.8rem;"><span id="forgotPasswordLink" style="color:#D4AF37; cursor:pointer;">Forgot Password?</span></p>
+        <p style="margin-top:0.5rem;">Don't have an account? <span id="toggleModeLink" style="color:#D4AF37; cursor:pointer;">Create account</span></p>
+      `;
+      else if (mode === 'register') return `
+        <h3>Create Account</h3>
+        <div class="form-group"><label>Full Name *</label><input type="text" id="regName" required></div>
+        <div class="form-row"><div class="form-group"><label>Email *</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Phone *</label><input type="tel" id="regPhone" required></div></div>
+        <div class="form-row"><div class="form-group"><label>Password *</label><div class="password-wrapper"><input type="password" id="regPassword" required><i class="fas fa-eye toggle-password" id="toggleRegPwd"></i></div></div><div class="form-group"><label>Confirm Password</label><div class="password-wrapper"><input type="password" id="regConfirmPassword" required><i class="fas fa-eye toggle-password" id="toggleRegConfirm"></i></div></div></div>
+        <div class="form-row"><div class="form-group"><label>Address</label><input type="text" id="regAddress"></div><div class="form-group"><label>Date of Birth</label><input type="date" id="regDob"></div></div>
+        <div class="checkbox-group"><input type="checkbox" id="termsCheckbox"> <label>I accept Terms & Privacy *</label></div>
+        <button id="submitAuthBtn" class="btn-primary" style="width:100%; margin-top:0.5rem;">Register</button>
+        <p style="margin-top:1rem;">Already have an account? <span id="toggleModeLink" style="color:#D4AF37; cursor:pointer;">Sign in</span></p>
+      `;
+      else return `
+        <h3>Reset Password</h3>
+        <div class="form-group"><label>Email</label><input type="email" id="resetEmail" required></div>
+        <button id="submitResetBtn" class="btn-primary">Send Reset Link</button>
+        <p style="margin-top:1rem;"><span id="backToLoginLink" style="color:#D4AF37; cursor:pointer;">← Back to Login</span></p>
+      `;
+    };
+    modalDiv.innerHTML = `<div class="modal-content glass">${render()}</div>`;
+    document.body.appendChild(modalDiv);
+    const attach = () => {
+      if (mode === 'login') {
+        setupPasswordToggle('loginPassword', 'toggleLoginPwd');
+        const loginEmail = document.getElementById('loginEmail');
+        const loginPwd = document.getElementById('loginPassword');
+        const handleEnter = (e) => { if (e.key === 'Enter') document.getElementById('submitAuthBtn').click(); };
+        if (loginEmail) loginEmail.addEventListener('keypress', handleEnter);
+        if (loginPwd) loginPwd.addEventListener('keypress', handleEnter);
+        document.getElementById('forgotPasswordLink').onclick = () => { mode = 'forgot'; modalDiv.querySelector('.modal-content').innerHTML = render(); attach(); };
+        document.getElementById('toggleModeLink').onclick = () => { mode = 'register'; modalDiv.querySelector('.modal-content').innerHTML = render(); attach(); };
+        document.getElementById('submitAuthBtn').onclick = async () => {
+          const email = document.getElementById('loginEmail').value.trim();
+          const password = document.getElementById('loginPassword').value;
+          if (!email || !password) return showToast("Email and password required", "error");
+          try { await signInWithEmailAndPassword(auth, email, password); modalDiv.remove(); }
+          catch (err) { let msg = err.message; if (msg.includes('auth/user-not-found')) msg = "No account found."; else if (msg.includes('auth/wrong-password')) msg = "Incorrect password."; showToast(msg, "error"); }
+        };
+      } else if (mode === 'register') {
+        setupPasswordToggle('regPassword', 'toggleRegPwd');
+        setupPasswordToggle('regConfirmPassword', 'toggleRegConfirm');
+        const regEmail = document.getElementById('regEmail');
+        const regPwd = document.getElementById('regPassword');
+        const regConfirm = document.getElementById('regConfirmPassword');
+        const handleEnter = (e) => { if (e.key === 'Enter') document.getElementById('submitAuthBtn').click(); };
+        if (regEmail) regEmail.addEventListener('keypress', handleEnter);
+        if (regPwd) regPwd.addEventListener('keypress', handleEnter);
+        if (regConfirm) regConfirm.addEventListener('keypress', handleEnter);
+        document.getElementById('toggleModeLink').onclick = () => { mode = 'login'; modalDiv.querySelector('.modal-content').innerHTML = render(); attach(); };
+        document.getElementById('submitAuthBtn').onclick = async () => {
+          const name = document.getElementById('regName').value.trim();
+          const email = document.getElementById('regEmail').value.trim();
+          const phone = document.getElementById('regPhone').value.trim();
+          const password = document.getElementById('regPassword').value;
+          const confirm = document.getElementById('regConfirmPassword').value;
+          const address = document.getElementById('regAddress').value.trim();
+          const dob = document.getElementById('regDob').value;
+          const terms = document.getElementById('termsCheckbox').checked;
+          if (!name || !email || !phone || !password || !confirm) return showToast("All required fields", "error");
+          if (password !== confirm) return showToast("Passwords do not match", "error");
+          if (password.length < 6) return showToast("Password min 6 chars", "error");
+          if (!terms) return showToast("Accept terms", "error");
+          try {
+            const userCred = await createUserWithEmailAndPassword(auth, email, password);
+            const userRef = doc(db, "users", userCred.user.uid);
+            await updateDoc(userRef, { fullName: name, phone, address, dob, updatedAt: new Date() });
+            modalDiv.remove(); showToast("Registration successful! You are now logged in.", "success");
+          } catch (err) { showToast(err.message, "error"); }
+        };
+      } else {
+        document.getElementById('backToLoginLink').onclick = () => { mode = 'login'; modalDiv.querySelector('.modal-content').innerHTML = render(); attach(); };
+        document.getElementById('submitResetBtn').onclick = async () => {
+          const email = document.getElementById('resetEmail').value.trim();
+          if (!email) return showToast("Email required", "error");
+          try { await sendPasswordResetEmail(auth, email); showToast("Reset link sent", "info"); mode = 'login'; modalDiv.querySelector('.modal-content').innerHTML = render(); attach(); }
+          catch (err) { showToast(err.message, "error"); }
+        };
+      }
+    };
+    attach();
+    modalDiv.addEventListener('click', (e) => { if (e.target === modalDiv) modalDiv.remove(); });
+  }
+
+  // ========== SHOWROOM (real-time with onSnapshot) ==========
+  let unsubscribeShowroomCars = null;
+
+  function loadShowroomCars(containerId = "showroomGrid") {
+    const showroomBox = document.getElementById(containerId);
+    if (!showroomBox) return;
+    showroomBox.innerHTML = `<div class="glass" style="padding:2rem; text-align:center;">Loading luxury vehicles...</div>`;
+    if (unsubscribeShowroomCars) unsubscribeShowroomCars();
+    const carsRef = collection(db, "cars");
+    unsubscribeShowroomCars = onSnapshot(carsRef, (snapshot) => {
+      if (snapshot.empty) {
+        showroomBox.innerHTML = `<div class="glass" style="padding:2rem; text-align:center;">No cars available at the moment.</div>`;
+        return;
+      }
+      const cars = [];
+      snapshot.forEach((docSnap) => {
+        const car = docSnap.data();
+        const shouldShow = car.visible !== false && car.status !== "Hidden";
+        if (shouldShow) {
+          const carData = { id: docSnap.id, ...car };
+          cars.push(carData);
+          carsCache[carData.id] = carData;
+        }
+      });
+      cars.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
+      if (cars.length === 0) {
+        showroomBox.innerHTML = `<div class="glass" style="padding:2rem; text-align:center;">No cars available at the moment.</div>`;
+        return;
+      }
+      const exchangeRates = { USD: 1, EUR: 0.92, GBP: 0.79, GHS: 12.5 };
+      showroomBox.innerHTML = cars.map(car => {
+        const basePrice = parsePrice(car.price);
+        const converted = currentCurrency === 'GHS' ? basePrice : basePrice / exchangeRates.GHS * (exchangeRates[currentCurrency] || 1);
+        const priceDisplay = formatMoney(converted, currentCurrency);
+        const statusClass = `badge-${car.status?.toLowerCase().replace(/ /g,'-') || 'available'}`;
+        return `
+          <div class="car-card">
+            <div class="carousel-container" id="carousel-${car.id}"><div class="carousel-slide" style="background-image:url('${car.imageUrl || car.images?.[0] || 'https://via.placeholder.com/400x220'}');"></div><button class="carousel-btn prev" data-id="${car.id}"><i class="fas fa-chevron-left"></i></button><button class="carousel-btn next" data-id="${car.id}"><i class="fas fa-chevron-right"></i></button><div class="carousel-counter" style="position:absolute; bottom:5px; right:5px; background:rgba(0,0,0,0.6); padding:2px 6px; border-radius:20px; font-size:0.7rem;">1/${(car.images?.length || 1)}</div></div>
+            <div class="car-info">
+              <h3>${car.brand} ${car.model} (${car.year})</h3>
+              <div class="car-price">${priceDisplay}</div>
+              <div><span class="badge ${statusClass}">${car.status || 'Available'}</span> ${car.featured ? '<span class="badge" style="background:#D4AF37;">⭐ Featured</span>' : ''}</div>
+              <div class="car-specs">${car.transmission || 'N/A'} | ${car.mileage || 'N/A'} km | ${car.fuel || 'N/A'}</div>
+              <div class="action-buttons">
+                <button class="enquiry-btn" onclick="window.showEnquiryModalById('${car.id}')"><i class="fas fa-comment-dots"></i> Enquiry</button>
+                <button class="save-car-btn" onclick="saveCarById('${car.id}')"><i class="fas fa-heart"></i> Save</button>
+                <div class="share-dropdown">
+                  <button class="share-btn-trigger" data-car-id="${car.id}"><i class="fas fa-share-alt"></i> Share</button>
+                  <div class="share-dropdown-content" id="share-dropdown-${car.id}">
+                    <button onclick="shareCarById('${car.id}', 'whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    <button onclick="shareCarById('${car.id}', 'facebook')"><i class="fab fa-facebook"></i> Facebook</button>
+                    <button onclick="shareCarById('${car.id}', 'sms')"><i class="fas fa-sms"></i> SMS</button>
+                    <button onclick="shareCarById('${car.id}', 'copy')"><i class="fas fa-copy"></i> Copy Link</button>
+                    <button onclick="shareCarById('${car.id}', 'more')"><i class="fas fa-share-alt"></i> More</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      cars.forEach(car => initCarousel(car.id, car.images || [car.imageUrl]));
+      document.querySelectorAll('.share-btn-trigger').forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const dropdown = document.getElementById(`share-dropdown-${btn.dataset.carId}`);
+          if (dropdown) {
+            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+          }
+        };
+      });
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.share-dropdown')) {
+          document.querySelectorAll('.share-dropdown-content').forEach(d => d.style.display = 'none');
+        }
+      });
+    }, (error) => {
+      console.error(error);
+      showroomBox.innerHTML = `<div class="glass" style="padding:2rem; text-align:center;">⚠️ Unable to load cars. Check Firestore rules.</div>`;
+    });
+  }
+
+  function initCarousel(carId, images) {
+    if (!images || images.length === 0) images = ["https://via.placeholder.com/400x220"];
+    let idx = 0;
+    const slide = document.querySelector(`#carousel-${carId} .carousel-slide`), prev = document.querySelector(`.carousel-btn.prev[data-id="${carId}"]`), next = document.querySelector(`.carousel-btn.next[data-id="${carId}"]`), counter = document.querySelector(`#carousel-${carId} .carousel-counter`);
+    const update = () => { slide.style.backgroundImage = `url('${images[idx]}')`; if(counter) counter.innerText = `${idx+1}/${images.length}`; };
+    if (prev) prev.onclick = (e) => { e.stopPropagation(); idx = (idx-1+images.length)%images.length; update(); };
+    if (next) next.onclick = (e) => { e.stopPropagation(); idx = (idx+1)%images.length; update(); };
+    update();
+    slide.addEventListener('click', () => openFullscreenGallery(images, idx));
+  }
+
+  function openFullscreenGallery(images, startIdx) {
+    const modal = document.createElement('div'); modal.className = 'modal';
+    let idx = startIdx;
+    modal.innerHTML = `<div style="position:relative;"><img id="fullImg" src="${images[idx]}" style="max-width:90%; max-height:80vh; border-radius:1rem;"><button id="prevFull" style="position:absolute; left:20px; top:50%; background:rgba(0,0,0,0.6); border:none; color:white; padding:10px; border-radius:50%; cursor:pointer;"><i class="fas fa-chevron-left"></i></button><button id="nextFull" style="position:absolute; right:20px; top:50%; background:rgba(0,0,0,0.6); border:none; color:white; padding:10px; border-radius:50%; cursor:pointer;"><i class="fas fa-chevron-right"></i></button><button id="closeFull" style="position:absolute; top:20px; right:20px; background:red; border:none; color:white; padding:8px; border-radius:50%; cursor:pointer;">✕</button></div>`;
+    document.body.appendChild(modal);
+    const updateImg = () => { document.getElementById('fullImg').src = images[idx]; };
+    document.getElementById('prevFull').onclick = () => { idx = (idx-1+images.length)%images.length; updateImg(); };
+    document.getElementById('nextFull').onclick = () => { idx = (idx+1)%images.length; updateImg(); };
+    document.getElementById('closeFull').onclick = () => modal.remove();
+    modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  }
+
+  window.showEnquiryModalById = function(carId) {
+    const car = carsCache[carId];
+    if (!car) {
+      showToast("Car details still loading. Please try again.", "error");
+      return;
+    }
+    showEnquiryModal(car);
+  };
+
+  function showEnquiryModal(car) {
+    if (!currentUser) { showToast("Please login", "error"); return; }
+    const modalDiv = document.createElement('div'); modalDiv.className = 'modal';
+    modalDiv.innerHTML = `<div class="modal-content glass"><h3>Enquiry: ${car.brand} ${car.model}</h3><form id="enquiryForm"><div class="form-group"><label>Name</label><input value="${currentUser.fullName}" disabled></div><div class="form-group"><label>Email</label><input value="${currentUser.email}" disabled></div><div class="form-group"><label>Phone</label><input id="enqPhone" value="${currentUser.phone || ''}" required></div><div class="form-group"><label>Message</label><textarea id="enqMessage" rows="3" placeholder="I am interested..."></textarea></div><button type="submit" class="btn-green">Submit</button><button type="button" class="btn-red" id="closeEnq">Cancel</button></form></div>`;
+    document.body.appendChild(modalDiv);
+    document.getElementById('enquiryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const enquiryData = {
+        customerId: currentUser.uid,
+        customerName: currentUser.fullName,
+        customerEmail: currentUser.email,
+        phone: document.getElementById('enqPhone').value,
+        carId: car.id,
+        carBrand: car.brand || "",
+        carModel: car.model || "",
+        carYear: car.year || "",
+        carPrice: Number(car.price) || 0,
+        carImage: car.imageUrl || "",
+        message: document.getElementById('enqMessage').value,
+        status: "New",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      };
+      await addDoc(collection(db, "enquiries"), enquiryData);
+      showToast("Enquiry sent!"); modalDiv.remove();
+    });
+    document.getElementById('closeEnq').onclick = () => modalDiv.remove();
+  }
+
+  function renderShowroom() {
+    const content = `
+      <div class="container">
+        <h2>🚘 Luxury Showroom</h2>
+        <div class="glass" style="padding:1rem; margin-bottom:1.5rem;">
+          <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center;">
+            <div><input type="text" id="searchInput" placeholder="🔍 Search brand/model..." style="padding:8px 16px; border-radius:2rem; background:#1e293b; border:none; color:white;"></div>
+            <div><select id="filterBrand" style="background:#1e293b; border:none; padding:6px 12px; border-radius:2rem; color:white;"></select> <select id="filterYear" style="background:#1e293b; border:none; padding:6px 12px; border-radius:2rem; color:white;"></select> <select id="filterTrans" style="background:#1e293b; border:none; padding:6px 12px; border-radius:2rem; color:white;"></select> <select id="filterStatus" style="background:#1e293b; border:none; padding:6px 12px; border-radius:2rem; color:white;"></select></div>
+            <div><select id="sortSelect"><option value="newest">Newest</option><option value="priceLow">Price: Low to High</option><option value="priceHigh">Price: High to Low</option></select> <select id="currencySelect"><option value="GHS">GHS</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option></select></div>
+          </div>
+        </div>
+        <div id="showroomGrid" class="car-grid">Loading cars...</div>
+      </div>
+    `;
+    renderPage(content, 'showroom', true);
+    loadShowroomCars("showroomGrid");
+    document.getElementById('searchInput').addEventListener('input', () => loadShowroomCars("showroomGrid"));
+    document.getElementById('filterBrand').addEventListener('change', () => loadShowroomCars("showroomGrid"));
+    document.getElementById('filterYear').addEventListener('change', () => loadShowroomCars("showroomGrid"));
+    document.getElementById('filterTrans').addEventListener('change', () => loadShowroomCars("showroomGrid"));
+    document.getElementById('filterStatus').addEventListener('change', () => loadShowroomCars("showroomGrid"));
+    document.getElementById('sortSelect').addEventListener('change', () => loadShowroomCars("showroomGrid"));
+    document.getElementById('currencySelect').addEventListener('change', (e) => { currentCurrency = e.target.value; loadShowroomCars("showroomGrid"); });
+    populateFilterOptions();
+  }
+
+  async function populateFilterOptions() {
+    const snap = await getDocs(collection(db, "cars"));
+    const cars = snap.docs.map(d => d.data());
+    const brands = [...new Set(cars.map(c => c.brand).filter(Boolean))];
+    const years = [...new Set(cars.map(c => c.year).filter(Boolean))].sort();
+    const trans = [...new Set(cars.map(c => c.transmission).filter(Boolean))];
+    const statuses = ["Available","Reserved","Sold","Incoming","Pre-Order Only","In Transit","New Arrival"];
+    document.getElementById('filterBrand').innerHTML = '<option value="">All Brands</option>' + brands.map(b => `<option>${b}</option>`).join('');
+    document.getElementById('filterYear').innerHTML = '<option value="">All Years</option>' + years.map(y => `<option>${y}</option>`).join('');
+    document.getElementById('filterTrans').innerHTML = '<option value="">All Trans</option>' + trans.map(t => `<option>${t}</option>`).join('');
+    document.getElementById('filterStatus').innerHTML = '<option value="">All Status</option>' + statuses.map(s => `<option>${s}</option>`).join('');
+  }
+
+  function renderPreOrderForm() {
+    if (!currentUser) { showToast("Login required", "error"); return; }
+    const brandOptions = ["Toyota","Lexus","BMW","Mercedes","Audi","Honda","Nissan","Hyundai","Kia","Mazda","Subaru","Mitsubishi","Volkswagen","Ford","Chevrolet","Porsche","Land Rover","Jeep","Volvo","Tesla"].map(b => `<option>${b}</option>`).join('');
+    const yearOptions = Array.from({length:30}, (_,i) => `<option>${new Date().getFullYear()-i}</option>`).join('');
+    const fuelOptions = `<option>Any</option><option>Gasoline</option><option>Petrol</option><option>Diesel</option><option>Electric</option><option>Hybrid</option>`;
+    const transmissionOptions = `<option>Any</option><option>Automatic</option><option>Manual</option>`;
+    const conditionOptions = `<option>Any</option><option>Brand New</option><option>Used (Japan)</option><option>Used (Korea)</option>`;
+    const passengersOptions = `<option>Any</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8+</option>`;
+    const importCountries = ["Japan","Korea","USA","Germany","UK"];
+    const content = `
+      <div class="container"><div class="form-card glass"><h2><i class="fas fa-ship"></i> Pre‑Order / Import Request</h2><p>Request a vehicle <strong>not currently in our showroom</strong>.</p>
+      <form id="preorderForm"><div class="form-row"><div class="form-group"><label>Name *</label><input id="preName" value="${currentUser.fullName}" required></div><div class="form-group"><label>Email *</label><input id="preEmail" value="${currentUser.email}" required></div><div class="form-group"><label>Phone *</label><input id="prePhone" value="${currentUser.phone || ''}" required></div></div>
+      <div class="form-row"><div class="form-group"><label>Budget (USD/GHS)</label><input id="preBudget" placeholder="e.g., 25000 USD"></div><div class="form-group"><label>Preferred Colour</label><input id="preColor" placeholder="e.g., Black, White, Silver"></div><div class="form-group"><label>Import Country</label><select id="preImportCountry">${importCountries.map(c => `<option>${c}</option>`).join('')}</select></div></div>
+      <h3>Vehicle Specifications</h3>
+      <div class="form-row"><div class="form-group"><label>Brand *</label><select id="preBrand">${brandOptions}</select></div><div class="form-group"><label>Model *</label><input id="preModel" required></div><div class="form-group"><label>Year</label><select id="preYear"><option value="">Any</option>${yearOptions}</select></div></div>
+      <div class="form-row"><div class="form-group"><label>Fuel</label><select id="preFuel">${fuelOptions}</select></div><div class="form-group"><label>Transmission</label><select id="preTrans">${transmissionOptions}</select></div><div class="form-group"><label>Condition</label><select id="preCondition">${conditionOptions}</select></div><div class="form-group"><label>Passengers</label><select id="prePassengers">${passengersOptions}</select></div></div>
+      <div class="form-group"><label>Additional Notes</label><textarea id="preNotes" rows="2" placeholder="Any special requests..."></textarea></div>
+      <button type="submit" class="btn-primary">Submit Import Request</button></form></div></div>`;
+    renderPage(content, 'preorder', true);
+    document.getElementById('preorderForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('preName').value, email = document.getElementById('preEmail').value, phone = document.getElementById('prePhone').value;
+      const budget = document.getElementById('preBudget').value, color = document.getElementById('preColor').value, importCountry = document.getElementById('preImportCountry').value;
+      const brand = document.getElementById('preBrand').value, model = document.getElementById('preModel').value, year = document.getElementById('preYear').value;
+      const fuel = document.getElementById('preFuel').value, transmission = document.getElementById('preTrans').value, condition = document.getElementById('preCondition').value, passengers = document.getElementById('prePassengers').value;
+      const notes = document.getElementById('preNotes').value;
+      if (!name || !email || !phone || !brand || !model) return showToast("Complete required fields","error");
+      const cleanMessage = `🚢 PRE-ORDER REQUEST\n\n👤 CUSTOMER\nName: ${name}\nEmail: ${email}\nWhatsApp: ${phone}\nBudget: ${budget}\nColour: ${color}\nImport: ${importCountry}\n\n🚘 VEHICLE\nBrand: ${brand}\nModel: ${model}\nYear: ${year || 'Any'}\nFuel: ${fuel}\nTrans: ${transmission}\nCondition: ${condition}\nPassengers: ${passengers}\n\n📝 NOTES\n${notes || '—'}\n\nPlease reply with specs, price, and images.`;
+      window.open(`https://wa.me/447348624530?text=${encodeURIComponent(cleanMessage)}`, '_blank');
+      await addDoc(collection(db, "preOrders"), { customerId: currentUser.uid, customerName: name, customerEmail: email, phone: phone, budget, preferredColor: color, importCountry, brand, model, year, fuel, transmission, condition, passengers, notes, status: "Pending", expectedAvailability: "45-60 days", adminNotes: "", trackingStage: "Request Received", createdAt: new Date(), updatedAt: new Date() });
+      showToast("Pre-order sent!");
+      document.getElementById('preorderForm').reset();
+      document.getElementById('preName').value = currentUser.fullName;
+      document.getElementById('preEmail').value = currentUser.email;
+      document.getElementById('prePhone').value = currentUser.phone || '';
+    });
+  }
+
+  function renderTracking() {
+    const content = `<div class="container"><div class="form-card glass" style="max-width:600px; margin:auto;"><h2>📦 Track Container</h2><input id="trackNum" placeholder="Tracking number" class="form-group"><button id="trackBtn" class="btn-primary">Track</button><div id="trackRes" class="glass" style="margin-top:1rem; padding:1rem;"></div></div></div>`;
+    renderPage(content, 'track', true);
+    document.getElementById('trackBtn').onclick = async () => {
+      const tn = document.getElementById('trackNum').value.trim();
+      if (!tn) return;
+      const q = query(collection(db, "orders"), where("trackingNumber", "==", tn));
+      const snap = await getDocs(q);
+      if (snap.empty) document.getElementById('trackRes').innerHTML = '<div class="glass">Not found</div>';
+      else { const order = snap.docs[0].data(); document.getElementById('trackRes').innerHTML = `<div class="glass">🔖 ${order.trackingNumber}<br>🚘 ${order.vehicleRequest}<br>Status: ${order.status}<br>ETA: ${order.containerETA}</div>`; }
+    };
+  }
+
+  function renderCustomerDashboard() {
+    if (!currentUser) { showToast("Please login", "error"); return; }
+    let activeTab = 'enquiries';
+    const content = `
+      <div class="container"><div class="form-card glass">
+        <h2><i class="fas fa-tachometer-alt"></i> Customer Garage</h2>
+        <p>Welcome, ${currentUser.fullName}!</p>
+        <div class="dashboard-tabs">
+          <button class="dash-tab-btn active" data-tab="enquiries"><i class="fas fa-question-circle"></i> Enquiries</button>
+          <button class="dash-tab-btn" data-tab="preorders"><i class="fas fa-shopping-cart"></i> Pre-Orders</button>
+          <button class="dash-tab-btn" data-tab="invoices"><i class="fas fa-file-invoice"></i> Invoices</button>
+          <button class="dash-tab-btn" data-tab="wishlist"><i class="fas fa-heart"></i> Wishlist</button>
+          <button class="dash-tab-btn" data-tab="importtrack"><i class="fas fa-ship"></i> Import Tracking</button>
+          <button class="dash-tab-btn" data-tab="notifications"><i class="fas fa-bell"></i> Notifications</button>
+          <button class="dash-tab-btn" data-tab="showroom"><i class="fas fa-car"></i> Showroom</button>
+        </div>
+        <div id="dashContent"></div>
+        <div style="margin-top: 1.5rem; text-align: center;">
+          <button id="newPreOrderBtn" class="btn-large-green"><i class="fas fa-ship"></i> + New Pre‑Order Request</button>
+        </div>
+        <button id="logoutDashboardBtn" class="btn-outline" style="margin-top:1rem; display:block; margin-left:auto; margin-right:auto;">Logout</button>
+      </div></div>
+    `;
+    renderPage(content, 'dashboard', true);
+    const renderTab = (tab) => {
+      const container = document.getElementById('dashContent');
+      if (tab === 'enquiries') renderEnquiries(container);
+      else if (tab === 'preorders') renderPreOrders(container);
+      else if (tab === 'invoices') renderInvoices(container);
+      else if (tab === 'wishlist') loadWishlist(container);
+      else if (tab === 'importtrack') renderImportTracking(container);
+      else if (tab === 'notifications') loadUserNotifications(container);
+      else if (tab === 'showroom') renderShowroomInside(container);
+    };
+    document.querySelectorAll('.dash-tab-btn').forEach(btn => btn.onclick = () => { activeTab = btn.dataset.tab; document.querySelectorAll('.dash-tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderTab(activeTab); });
+    renderTab('enquiries');
+    document.getElementById('newPreOrderBtn').onclick = () => renderPreOrderForm();
+    document.getElementById('logoutDashboardBtn').onclick = () => logout();
+  }
+
+  async function renderEnquiries(container) {
+    container.innerHTML = '<div class="glass" style="padding:1rem;">Loading...</div>';
+    const q = query(collection(db, "enquiries"), where("customerId", "==", currentUser.uid));
+    const snap = await getDocs(q);
+    const enquiries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!enquiries.length) { container.innerHTML = '<div class="glass" style="padding:1rem;">No enquiries found.</div>'; return; }
+    container.innerHTML = enquiries.map(e => {
+      const carTitle = getCarTitle(e);
+      return `<div style="background:rgba(0,0,0,0.3); border-left:5px solid #3b82f6; padding:1rem; margin-bottom:1rem; border-radius:1rem;">
+        <strong>${carTitle}</strong><br>
+        📅 ${e.createdAt?.toDate().toLocaleString()}<br>
+        📝 ${safeText(e.message, "No message")}<br>
+        Status: ${safeText(e.status, "New")}
+      </div>`;
+    }).join('');
+  }
+
+  async function renderPreOrders(container) {
+    container.innerHTML = '<div class="glass" style="padding:1rem;">Loading...</div>';
+    const q = query(collection(db, "preOrders"), where("customerId", "==", currentUser.uid));
+    const snap = await getDocs(q);
+    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!orders.length) { container.innerHTML = '<div class="glass" style="padding:1rem;">No pre-orders.</div>'; return; }
+    container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.3); border-left:5px solid #f59e0b; padding:1rem; margin-bottom:1rem; border-radius:1rem;">
+      <strong>${safeText(o.brand)} ${safeText(o.model)} (${safeText(o.year, 'Year TBD')})</strong><br>
+      📅 ${o.createdAt?.toDate().toLocaleString()}<br>
+      Status: ${safeText(o.status, "Pending")}<br>
+      ETA: ${safeText(o.expectedAvailability, "To be advised")}<br>
+      Admin notes: ${safeText(o.adminNotes, "-")}
+    </div>`).join('');
+  }
+
+  async function renderInvoices(container) {
+    container.innerHTML = '<div class="glass" style="padding:1rem;">Loading...</div>';
+    const q = query(collection(db, "invoices"), where("customerId", "==", currentUser.uid));
+    const snap = await getDocs(q);
+    const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!invoices.length) { container.innerHTML = '<div class="glass" style="padding:1rem;">No invoices.</div>'; return; }
+    container.innerHTML = invoices.map(inv => `<div style="background:rgba(0,0,0,0.3); border-left:5px solid #10b981; padding:1rem; margin-bottom:1rem; border-radius:1rem;">
+      <strong>${safeText(inv.invoiceNumber)}</strong><br>
+      Total: ${formatCurrency(inv.total)}<br>
+      <button class="btn-blue viewInvoiceBtn" data-invoice='${JSON.stringify(inv)}'>View Invoice</button>
+    </div>`).join('');
+    document.querySelectorAll('.viewInvoiceBtn').forEach(btn => btn.onclick = () => viewInvoice(JSON.parse(btn.dataset.invoice)));
+  }
+
+  async function renderImportTracking(container) {
+    container.innerHTML = '<div class="glass" style="padding:1rem;">Loading...</div>';
+    const q = query(collection(db, "preOrders"), where("customerId", "==", currentUser.uid));
+    const snap = await getDocs(q);
+    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!orders.length) { container.innerHTML = '<div class="glass" style="padding:1rem;">No import orders.</div>'; return; }
+    const stages = ["Request Received","Searching Vehicle","Vehicle Found","Payment Confirmed","Shipping","In Transit","At Port","Customs Clearance","Ready for Pickup","Delivered"];
+    container.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.3); margin-bottom:1rem; padding:1rem; border-radius:1rem;">
+      <strong>${safeText(o.brand)} ${safeText(o.model)}</strong><br>
+      Current stage: ${safeText(o.trackingStage, 'Request Received')}<br>
+      <div style="background:#333; border-radius:20px; margin:10px 0;"><div style="background:#D4AF37; width:${((stages.indexOf(o.trackingStage||'Request Received')+1)/stages.length)*100}%; height:10px; border-radius:20px;"></div></div>
+      <ul>${stages.map(s => `<li style="${(o.trackingStage||'Request Received') === s ? 'color:#D4AF37; font-weight:bold' : ''}">${s}</li>`).join('')}</ul>
+    </div>`).join('');
+  }
+
+  function renderShowroomInside(container) {
+    container.innerHTML = '<div id="showroomGrid" class="car-grid">Loading...</div>';
+    loadShowroomCars("showroomGrid");
+  }
+
+  // ========== ADMIN PANEL ==========
+  function renderAdminPanel() {
+    if (!currentUser || currentUser.role !== 'admin') return;
+    let activeTab = 'cars';
+    const content = `
+      <div class="container"><div class="form-card glass">
+        <h2>Admin Control Center</h2>
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" data-tab="cars">🚗 Cars</button>
+          <button class="admin-tab-btn" data-tab="enquiries">📩 Enquiries</button>
+          <button class="admin-tab-btn" data-tab="preorders">📦 Pre-Orders</button>
+          <button class="admin-tab-btn" data-tab="invoices">🧾 Invoices</button>
+          <button class="admin-tab-btn" data-tab="notifications">🔔 Notifications</button>
+          <button class="admin-tab-btn" data-tab="shipped">📸 Shipped Gallery</button>
+          <button id="adminLogoutBtn" class="btn-outline">Logout</button>
+        </div>
+        <div id="adminContent"></div>
+      </div></div>
+    `;
+    renderPage(content, 'admin', true);
+    const renderTab = (tab) => {
+      if (tab === 'cars') renderCarManager();
+      else if (tab === 'enquiries') renderEnquiriesAdmin();
+      else if (tab === 'preorders') renderPreOrdersAdmin();
+      else if (tab === 'invoices') renderInvoicesAdmin();
+      else if (tab === 'notifications') renderAdminNotifications();
+      else if (tab === 'shipped') renderShippedGalleryAdmin();
+    };
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.onclick = () => { activeTab = btn.dataset.tab; document.querySelectorAll('.admin-tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderTab(activeTab); });
+    renderTab('cars');
+    document.getElementById('adminLogoutBtn').onclick = () => logout();
+  }
+
+  // Admin Car Manager with image upload and real-time display
+  async function renderCarManager() {
+    const container = document.getElementById('adminContent');
+    container.innerHTML = `
+      <div class="glass" style="padding:1rem; margin-bottom:1rem;">
+        <h3>Add New Car</h3>
+        <form id="addCarForm" enctype="multipart/form-data">
+          <div class="form-row"><div class="form-group"><label>Brand *</label><input id="carBrand" required></div><div class="form-group"><label>Model *</label><input id="carModel" required></div></div>
+          <div class="form-row"><div class="form-group"><label>Year *</label><input id="carYear" type="number" required></div><div class="form-group"><label>Price (GHS) *</label><input id="carPrice" type="number" step="any" required></div></div>
+          <div class="form-row"><div class="form-group"><label>Status</label><select id="carStatus"><option>Available</option><option>Reserved</option><option>Sold</option><option>Incoming</option><option>Pre-Order Only</option><option>In Transit</option><option>New Arrival</option></select></div><div class="form-group"><label>Featured</label><select id="carFeatured"><option value="false">No</option><option value="true">Yes</option></select></div></div>
+          <div class="form-row"><div class="form-group"><label>Transmission</label><input id="carTrans" placeholder="Automatic/Manual"></div><div class="form-group"><label>Fuel</label><input id="carFuel" placeholder="Petrol/Diesel"></div><div class="form-group"><label>Mileage (km)</label><input id="carMileage" placeholder="e.g., 15000"></div></div>
+          <div class="form-row"><div class="form-group"><label>Colour</label><input id="carColor" placeholder="e.g., Black"></div><div class="form-group"><label>Condition</label><select id="carCondition"><option>Brand New</option><option>Used (Japan)</option><option>Used (Korea)</option></select></div></div>
+          <div class="form-group"><label>Description</label><textarea id="carDesc" rows="2"></textarea></div>
+          <div class="form-group"><label>Car Image (JPEG/PNG)</label><input type="file" id="carImageFile" accept="image/jpeg,image/jpg,image/png"></div>
+          <div id="carImagePreview" style="margin-top:0.5rem;"></div>
+          <button type="submit" class="btn-green">Add Car</button>
+        </form>
+      </div>
+      <h3>Existing Cars</h3>
+      <div id="adminCarsGrid" class="car-grid">Loading...</div>
+    `;
+    // Preview on file select
+    const fileInput = document.getElementById('carImageFile');
+    fileInput.addEventListener('change', (e) => {
+      const previewDiv = document.getElementById('carImagePreview');
+      previewDiv.innerHTML = '';
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = document.createElement('img');
+          img.src = ev.target.result;
+          img.style.width = '100px';
+          img.style.height = '100px';
+          img.style.objectFit = 'cover';
+          img.style.borderRadius = '0.5rem';
+          previewDiv.appendChild(img);
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+
+    // Load existing cars with real-time listener
+    const carsRef = collection(db, "cars");
+    const unsubscribeCarsAdmin = onSnapshot(carsRef, (snapshot) => {
+      const cars = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      const grid = document.getElementById('adminCarsGrid');
+      if (!grid) return;
+      if (cars.length === 0) {
+        grid.innerHTML = '<div class="glass" style="padding:1rem;">No cars yet.</div>';
+        return;
+      }
+      grid.innerHTML = cars.map(c => `
+        <div class="car-card">
+          <div style="height:120px; background:url('${c.imageUrl || 'https://via.placeholder.com/400x220'}') center/cover;"></div>
+          <div style="padding:1rem;">
+            <strong>${c.brand} ${c.model}</strong><br>
+            Price: ${c.price}<br>
+            Status: <select class="carStatus" data-id="${c.id}">
+              <option ${c.status==='Available'?'selected':''}>Available</option>
+              <option ${c.status==='Reserved'?'selected':''}>Reserved</option>
+              <option ${c.status==='Sold'?'selected':''}>Sold</option>
+              <option ${c.status==='Incoming'?'selected':''}>Incoming</option>
+              <option ${c.status==='Pre-Order Only'?'selected':''}>Pre-Order Only</option>
+              <option ${c.status==='In Transit'?'selected':''}>In Transit</option>
+              <option ${c.status==='New Arrival'?'selected':''}>New Arrival</option>
+            </select><br>
+            Featured: <input type="checkbox" class="featuredCheck" data-id="${c.id}" ${c.featured ? 'checked' : ''}><br>
+            <button class="btn-blue editCarBtn" data-car='${JSON.stringify(c)}'>Edit</button>
+            <button class="btn-red deleteCarBtn" data-id="${c.id}">Delete</button>
+          </div>
+        </div>
+      `).join('');
+      attachCarEvents();
+    });
+    window.unsubscribeCarsAdmin = unsubscribeCarsAdmin;
+
+    function attachCarEvents() {
+      document.querySelectorAll('.carStatus').forEach(select => select.onchange = async () => {
+        await updateDoc(doc(db, "cars", select.dataset.id), { status: select.value, updatedAt: new Date() });
+        showToast("Status updated");
+      });
+      document.querySelectorAll('.featuredCheck').forEach(cb => cb.onchange = async () => {
+        await updateDoc(doc(db, "cars", cb.dataset.id), { featured: cb.checked, updatedAt: new Date() });
+        showToast("Featured updated");
+      });
+      document.querySelectorAll('.editCarBtn').forEach(btn => btn.onclick = () => editCarModal(JSON.parse(btn.dataset.car)));
+      document.querySelectorAll('.deleteCarBtn').forEach(btn => btn.onclick = async () => {
+        if(confirm("Delete this car? This will also delete its image from storage.")) {
+          const carId = btn.dataset.id;
+          const carDoc = await getDoc(doc(db, "cars", carId));
+          const car = carDoc.data();
+          if (car && car.imagePath) {
+            try {
+              const imgRef = ref(storage, car.imagePath);
+              await deleteObject(imgRef);
+            } catch(e) { console.warn("Image deletion failed", e); }
+          }
+          await deleteDoc(doc(db, "cars", carId));
+          showToast("Car deleted");
+        }
+      });
+    }
+
+    document.getElementById('addCarForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const brand = document.getElementById('carBrand').value.trim();
+      const model = document.getElementById('carModel').value.trim();
+      const year = parseInt(document.getElementById('carYear').value);
+      const price = parseFloat(document.getElementById('carPrice').value);
+      const status = document.getElementById('carStatus').value;
+      const featured = document.getElementById('carFeatured').value === 'true';
+      const transmission = document.getElementById('carTrans').value;
+      const fuel = document.getElementById('carFuel').value;
+      const mileage = document.getElementById('carMileage').value;
+      const colour = document.getElementById('carColor').value;
+      const condition = document.getElementById('carCondition').value;
+      const description = document.getElementById('carDesc').value;
+      const imageFile = document.getElementById('carImageFile').files[0];
+      if (!brand || !model || !year || !price) return showToast("Brand, model, year, price required", "error");
+      let imageUrl = "https://via.placeholder.com/400x220";
+      let imagePath = "";
+      if (imageFile) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(imageFile.type)) return showToast("Only JPEG, JPG, PNG images are allowed", "error");
+        const fileName = `${Date.now()}_${imageFile.name}`;
+        const storageRef = ref(storage, `cars/${fileName}`);
+        await uploadBytes(storageRef, imageFile);
+        imageUrl = await getDownloadURL(storageRef);
+        imagePath = `cars/${fileName}`;
+      }
+      const carData = {
+        brand, model, year, price, status, featured, transmission, fuel, mileage, colour, condition, description,
+        imageUrl, imagePath, visible: true,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      };
+      await addDoc(collection(db, "cars"), carData);
+      showToast("Car added successfully!");
+      document.getElementById('addCarForm').reset();
+      document.getElementById('carImagePreview').innerHTML = '';
+    });
+  }
+
+  async function editCarModal(car) {
+    const modal = document.createElement('div'); modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content glass">
+        <h3>Edit Car</h3>
+        <form id="editCarForm">
+          <div class="form-row"><div class="form-group"><label>Brand</label><input id="editBrand" value="${car.brand}" required></div><div class="form-group"><label>Model</label><input id="editModel" value="${car.model}" required></div></div>
+          <div class="form-row"><div class="form-group"><label>Year</label><input id="editYear" type="number" value="${car.year}" required></div><div class="form-group"><label>Price (GHS)</label><input id="editPrice" type="number" step="any" value="${car.price}" required></div></div>
+          <div class="form-row"><div class="form-group"><label>Status</label><select id="editStatus"><option ${car.status==='Available'?'selected':''}>Available</option><option ${car.status==='Reserved'?'selected':''}>Reserved</option><option ${car.status==='Sold'?'selected':''}>Sold</option><option ${car.status==='Incoming'?'selected':''}>Incoming</option><option ${car.status==='Pre-Order Only'?'selected':''}>Pre-Order Only</option><option ${car.status==='In Transit'?'selected':''}>In Transit</option><option ${car.status==='New Arrival'?'selected':''}>New Arrival</option></select></div><div class="form-group"><label>Featured</label><select id="editFeatured"><option value="false">No</option><option value="true" ${car.featured ? 'selected' : ''}>Yes</option></select></div></div>
+          <div class="form-row"><div class="form-group"><label>Transmission</label><input id="editTrans" value="${car.transmission || ''}"></div><div class="form-group"><label>Fuel</label><input id="editFuel" value="${car.fuel || ''}"></div><div class="form-group"><label>Mileage (km)</label><input id="editMileage" value="${car.mileage || ''}"></div></div>
+          <div class="form-row"><div class="form-group"><label>Colour</label><input id="editColor" value="${car.colour || ''}"></div><div class="form-group"><label>Condition</label><select id="editCondition"><option ${car.condition==='Brand New'?'selected':''}>Brand New</option><option ${car.condition==='Used (Japan)'?'selected':''}>Used (Japan)</option><option ${car.condition==='Used (Korea)'?'selected':''}>Used (Korea)</option></select></div></div>
+          <div class="form-group"><label>Description</label><textarea id="editDesc" rows="2">${car.description || ''}</textarea></div>
+          <div class="form-group"><label>Change Image (JPEG/PNG)</label><input type="file" id="editImageFile" accept="image/jpeg,image/jpg,image/png"></div>
+          <div id="editImagePreview"><img src="${car.imageUrl}" style="width:100px; height:100px; object-fit:cover; border-radius:0.5rem;"></div>
+          <button type="submit" class="btn-green">Save Changes</button>
+          <button type="button" class="btn-red" id="closeEditModal">Cancel</button>
+        </form>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    const fileInput = document.getElementById('editImageFile');
+    fileInput.addEventListener('change', (e) => {
+      const preview = document.getElementById('editImagePreview');
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (ev) => { preview.innerHTML = `<img src="${ev.target.result}" style="width:100px; height:100px; object-fit:cover; border-radius:0.5rem;">`; };
+        reader.readAsDataURL(e.target.files[0]);
+      } else {
+        preview.innerHTML = `<img src="${car.imageUrl}" style="width:100px; height:100px; object-fit:cover; border-radius:0.5rem;">`;
+      }
+    });
+    document.getElementById('editCarForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const brand = document.getElementById('editBrand').value.trim();
+      const model = document.getElementById('editModel').value.trim();
+      const year = parseInt(document.getElementById('editYear').value);
+      const price = parseFloat(document.getElementById('editPrice').value);
+      const status = document.getElementById('editStatus').value;
+      const featured = document.getElementById('editFeatured').value === 'true';
+      const transmission = document.getElementById('editTrans').value;
+      const fuel = document.getElementById('editFuel').value;
+      const mileage = document.getElementById('editMileage').value;
+      const colour = document.getElementById('editColor').value;
+      const condition = document.getElementById('editCondition').value;
+      const description = document.getElementById('editDesc').value;
+      const newImageFile = document.getElementById('editImageFile').files[0];
+      let imageUrl = car.imageUrl;
+      let imagePath = car.imagePath;
+      if (newImageFile) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(newImageFile.type)) return showToast("Only JPEG, JPG, PNG images are allowed", "error");
+        if (imagePath) {
+          try {
+            const oldRef = ref(storage, imagePath);
+            await deleteObject(oldRef);
+          } catch(e) {}
+        }
+        const fileName = `${Date.now()}_${newImageFile.name}`;
+        const storageRef = ref(storage, `cars/${fileName}`);
+        await uploadBytes(storageRef, newImageFile);
+        imageUrl = await getDownloadURL(storageRef);
+        imagePath = `cars/${fileName}`;
+      }
+      await updateDoc(doc(db, "cars", car.id), {
+        brand, model, year, price, status, featured, transmission, fuel, mileage, colour, condition, description,
+        imageUrl, imagePath,
+        updatedAt: serverTimestamp()
+      });
+      showToast("Car updated");
+      modal.remove();
+      if (document.getElementById('showroomGrid')) loadShowroomCars("showroomGrid");
+    });
+    document.getElementById('closeEditModal').onclick = () => modal.remove();
+  }
+
+  // Shipped Gallery Admin (real-time)
+  async function renderShippedGalleryAdmin() {
+    const container = document.getElementById('adminContent');
+    container.innerHTML = `
+      <div class="glass" style="padding:1rem; margin-bottom:1rem;">
+        <h3>Upload to Shipped & Cleared Gallery</h3>
+        <form id="uploadGalleryForm">
+          <div class="form-row"><div class="form-group"><label>Title</label><input id="galleryTitle" required></div><div class="form-group"><label>Description</label><input id="galleryDesc"></div></div>
+          <div class="form-row"><div class="form-group"><label>Car Brand</label><input id="galleryBrand"></div><div class="form-group"><label>Car Model</label><input id="galleryModel"></div><div class="form-group"><label>Year</label><input id="galleryYear" type="number"></div></div>
+          <div class="form-group"><label>Media File (Image/Video)</label><input type="file" id="galleryMediaFile" accept="image/jpeg,image/jpg,image/png,image/webp,video/mp4,video/webm,video/quicktime"></div>
+          <button type="submit" class="btn-green">Upload</button>
+        </form>
+      </div>
+      <h3>Existing Gallery Items</h3>
+      <div id="galleryList" class="gallery-grid">Loading...</div>
+    `;
+    // Real-time gallery list
+    const galleryRef = collection(db, "shippedGallery");
+    const q = query(galleryRef, orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const items = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      const galleryList = document.getElementById('galleryList');
+      if (!galleryList) return;
+      if (items.length === 0) { galleryList.innerHTML = '<div class="glass" style="padding:1rem;">No items yet.</div>'; return; }
+      galleryList.innerHTML = items.map(item => `
+        <div class="gallery-item">
+          ${item.mediaType === 'image' ? `<img src="${item.mediaUrl}" alt="${item.title}">` : `<video controls src="${item.mediaUrl}"></video>`}
+          <div class="info">
+            <strong>${item.title}</strong><br>
+            ${item.carBrand} ${item.carModel} (${item.year || ''})<br>
+            ${item.description || ''}<br>
+            <small>${item.createdAt?.toDate().toLocaleString()}</small><br>
+            <button class="btn-red delete-gallery-item" data-id="${item.id}">Delete</button>
+          </div>
+        </div>
+      `).join('');
+      document.querySelectorAll('.delete-gallery-item').forEach(btn => btn.onclick = async () => {
+        const id = btn.dataset.id;
+        const item = items.find(i => i.id === id);
+        if (item && item.mediaPath) {
+          try {
+            const mediaRef = ref(storage, item.mediaPath);
+            await deleteObject(mediaRef);
+          } catch(e) {}
+        }
+        await deleteDoc(doc(db, "shippedGallery", id));
+      });
+    });
+
+    document.getElementById('uploadGalleryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('galleryTitle').value.trim();
+      const description = document.getElementById('galleryDesc').value.trim();
+      const carBrand = document.getElementById('galleryBrand').value.trim();
+      const carModel = document.getElementById('galleryModel').value.trim();
+      const year = document.getElementById('galleryYear').value;
+      const file = document.getElementById('galleryMediaFile').files[0];
+      if (!title || !file) return showToast("Title and media file required", "error");
+      const allowedTypes = ['image/jpeg','image/jpg','image/png','image/webp','video/mp4','video/webm','video/quicktime'];
+      if (!allowedTypes.includes(file.type)) return showToast("Unsupported file type", "error");
+      const maxSize = 100 * 1024 * 1024;
+      if (file.size > maxSize) return showToast("File too large (max 100MB)", "error");
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}_${title.replace(/[^a-z0-9]/gi,'_')}.${fileExt}`;
+      const storageRef = ref(storage, `shipped-gallery/${fileName}`);
+      await uploadBytes(storageRef, file);
+      const mediaUrl = await getDownloadURL(storageRef);
+      const mediaType = file.type.startsWith('image/') ? 'image' : 'video';
+      await addDoc(collection(db, "shippedGallery"), {
+        title, description, carBrand, carModel, year: year ? Number(year) : null,
+        mediaUrl, mediaPath: `shipped-gallery/${fileName}`, mediaType,
+        uploadedBy: currentUser.uid,
+        createdAt: serverTimestamp()
+      });
+      showToast("Uploaded successfully");
+      document.getElementById('uploadGalleryForm').reset();
+    });
+  }
+
+  // Other admin functions (enquiries, preorders, invoices, notifications) – kept but not changed
+  async function renderEnquiriesAdmin() {
+    const container = document.getElementById('adminContent');
+    const snap = await getDocs(query(collection(db, "enquiries"), orderBy("createdAt", "desc")));
+    const enquiries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    container.innerHTML = enquiries.map(e => `<div class="glass" style="margin-bottom:1rem; padding:1rem;">
+      <strong>${safeText(e.customerName)}</strong> (${safeText(e.customerEmail)})<br>
+      🚗 ${getCarTitle(e)}<br>
+      📝 ${safeText(e.message, "No message")}<br>
+      Status: <select class="enqStatus" data-id="${e.id}">
+        <option ${e.status==='New'?'selected':''}>New</option>
+        <option ${e.status==='Received'?'selected':''}>Received</option>
+        <option ${e.status==='In Review'?'selected':''}>In Review</option>
+        <option ${e.status==='Responded'?'selected':''}>Responded</option>
+        <option ${e.status==='Closed'?'selected':''}>Closed</option>
+      </select>
+      <button class="btn-green generateInvoice" data-enq='${JSON.stringify(e)}'>Generate Invoice</button>
+    </div>`).join('');
+    document.querySelectorAll('.enqStatus').forEach(select => select.onchange = async () => {
+      const newStatus = select.value;
+      const enqId = select.dataset.id;
+      const enq = enquiries.find(e => e.id === enqId);
+      if (enq) {
+        await updateDoc(doc(db, "enquiries", enqId), { status: newStatus, updatedAt: serverTimestamp() });
+        await createNotification({
+          userId: enq.customerId,
+          title: "Enquiry Status Updated",
+          message: `Your enquiry for ${getCarTitle(enq)} has been updated to: ${newStatus}.`,
+          type: "enquiry",
+          relatedCollection: "enquiries",
+          relatedId: enqId
+        });
+        showToast("Enquiry status updated and notification sent");
+      }
+      renderEnquiriesAdmin();
+    });
+    document.querySelectorAll('.generateInvoice').forEach(btn => btn.onclick = () => showInvoiceModal(JSON.parse(btn.dataset.enq)));
+  }
+
+  async function renderPreOrdersAdmin() {
+    const container = document.getElementById('adminContent');
+    const snap = await getDocs(query(collection(db, "preOrders"), orderBy("createdAt", "desc")));
+    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const stages = ["Request Received","Searching Vehicle","Vehicle Found","Payment Confirmed","Shipping","In Transit","At Port","Customs Clearance","Ready for Pickup","Delivered"];
+    container.innerHTML = orders.map(o => `<div class="glass" style="margin-bottom:1rem; padding:1rem;">
+      <strong>${safeText(o.customerName)}</strong><br>
+      🚗 ${safeText(o.brand)} ${safeText(o.model)}<br>
+      Status: <select class="preStatus" data-id="${o.id}">
+        <option ${o.status==='Pending'?'selected':''}>Pending</option>
+        <option ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
+        <option ${o.status==='Processing'?'selected':''}>Processing</option>
+        <option ${o.status==='Ready'?'selected':''}>Ready</option>
+        <option ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
+        <option ${o.status==='Completed'?'selected':''}>Completed</option>
+      </select><br>
+      Tracking: <select class="trackStage" data-id="${o.id}">${stages.map(s => `<option ${(o.trackingStage||'Request Received')===s?'selected':''}>${s}</option>`).join('')}</select><br>
+      ETA: <input class="etaInput" data-id="${o.id}" value="${o.expectedAvailability||'45-60 days'}"><br>
+      Admin notes: <textarea class="adminNotes" data-id="${o.id}">${o.adminNotes||''}</textarea><br>
+      <button class="btn-orange updatePreBtn" data-id="${o.id}">Save</button>
+      <button class="btn-green generateInvoicePre" data-order='${JSON.stringify(o)}'>Generate Invoice</button>
+    </div>`).join('');
+    document.querySelectorAll('.updatePreBtn').forEach(btn => btn.onclick = async () => {
+      const id = btn.dataset.id;
+      const newStatus = document.querySelector(`.preStatus[data-id="${id}"]`).value;
+      const newStage = document.querySelector(`.trackStage[data-id="${id}"]`).value;
+      const eta = document.querySelector(`.etaInput[data-id="${id}"]`).value;
+      const notes = document.querySelector(`.adminNotes[data-id="${id}"]`).value;
+      await updateDoc(doc(db, "preOrders", id), { status: newStatus, trackingStage: newStage, expectedAvailability: eta, adminNotes: notes, updatedAt: serverTimestamp() });
+      const order = orders.find(o => o.id === id);
+      if (order) {
+        await createNotification({
+          userId: order.customerId,
+          title: "Pre-Order Status Updated",
+          message: `Your pre-order for ${safeText(order.brand)} ${safeText(order.model)} has been updated to: ${newStatus}.`,
+          type: "preOrder",
+          relatedCollection: "preOrders",
+          relatedId: id
+        });
+      }
+      showToast("Pre-order updated and notification sent");
+      renderPreOrdersAdmin();
+    });
+    document.querySelectorAll('.generateInvoicePre').forEach(btn => btn.onclick = () => showInvoiceModal(JSON.parse(btn.dataset.order)));
+  }
+
+  async function renderInvoicesAdmin() {
+    const container = document.getElementById('adminContent');
+    const snap = await getDocs(collection(db, "invoices"));
+    const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    container.innerHTML = invoices.map(inv => `<div class="glass" style="margin-bottom:1rem; padding:1rem;">
+      ${safeText(inv.invoiceNumber)} | ${safeText(inv.customerName)}<br>
+      Total: ${formatCurrency(inv.total)}<br>
+      Payment: <select class="payStatus" data-id="${inv.id}">
+        <option ${inv.paymentStatus==='Unpaid'?'selected':''}>Unpaid</option>
+        <option ${inv.paymentStatus==='Paid'?'selected':''}>Paid</option>
+        <option ${inv.paymentStatus==='Partially Paid'?'selected':''}>Partially Paid</option>
+      </select>
+      <button class="btn-blue viewInvoiceBtn" data-invoice='${JSON.stringify(inv)}'>View</button>
+    </div>`).join('');
+    document.querySelectorAll('.payStatus').forEach(select => select.onchange = async () => {
+      await updateDoc(doc(db, "invoices", select.dataset.id), { paymentStatus: select.value, updatedAt: new Date() });
+      showToast("Payment status updated");
+      renderInvoicesAdmin();
+    });
+    document.querySelectorAll('.viewInvoiceBtn').forEach(btn => btn.onclick = () => viewInvoice(JSON.parse(btn.dataset.invoice)));
+  }
+
+  async function renderAdminNotifications() {
+    const container = document.getElementById('adminContent');
+    const usersSnap = await getDocs(collection(db, "users"));
+    const customers = usersSnap.docs.filter(d => d.data().role === 'customer').map(d => ({ id: d.id, name: d.data().fullName, email: d.data().email }));
+    container.innerHTML = `
+      <div class="glass" style="padding:1rem;">
+        <h3>Send Notification</h3>
+        <form id="adminNotificationForm">
+          <div class="form-group"><label>Title</label><input id="notifTitle" required></div>
+          <div class="form-group"><label>Message</label><textarea id="notifMsg" rows="3" required></textarea></div>
+          <div class="form-group"><label>Send To</label>
+            <select id="notifSendTo">
+              <option value="all">All Customers</option>
+              <option value="single">Single Customer</option>
+            </select>
+          </div>
+          <div class="form-group" id="singleCustomerDiv" style="display:none;">
+            <label>Select Customer</label>
+            <select id="notifCustomerId">
+              <option value="">-- Select Customer --</option>
+              ${customers.map(c => `<option value="${c.id}">${c.name} (${c.email})</option>`).join('')}
+            </select>
+          </div>
+          <button type="submit" class="btn-green">Send Notification</button>
+        </form>
+      </div>
+    `;
+    const sendToSelect = document.getElementById('notifSendTo');
+    const singleDiv = document.getElementById('singleCustomerDiv');
+    sendToSelect.onchange = () => { singleDiv.style.display = sendToSelect.value === 'single' ? 'block' : 'none'; };
+    document.getElementById('adminNotificationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('notifTitle').value.trim();
+      const message = document.getElementById('notifMsg').value.trim();
+      const sendTo = sendToSelect.value;
+      if (!title || !message) return showToast("Title and message required", "error");
+      if (sendTo === 'all') {
+        for (const cust of customers) {
+          await createNotification({ userId: cust.id, title, message, type: "admin" });
+        }
+        showToast(`Notification sent to ${customers.length} customers`);
+      } else {
+        const custId = document.getElementById('notifCustomerId').value;
+        if (!custId) return showToast("Please select a customer", "error");
+        await createNotification({ userId: custId, title, message, type: "admin" });
+        showToast("Notification sent to selected customer");
+      }
+      document.getElementById('adminNotificationForm').reset();
+      singleDiv.style.display = 'none';
+    });
+  }
+
+  function showInvoiceModal(source) {
+    const modal = document.createElement('div'); modal.className = 'modal';
+    modal.innerHTML = `<div class="modal-content glass"><h3>Generate Invoice</h3><div class="form-group"><label>Customer</label><input value="${source.customerName}" readonly></div><div class="form-group"><label>Vehicle</label><input value="${source.carDetails || source.brand + ' ' + source.model}" readonly></div><div class="form-row"><div class="form-group"><label>Vehicle Price (GHS)</label><input type="number" id="price" value="25000"></div><div class="form-group"><label>Doc Fee</label><input type="number" id="docFee" value="300"></div><div class="form-group"><label>Shipping Fee</label><input type="number" id="shipping" value="150"></div></div><div class="form-group"><label>Tax %</label><input type="number" id="tax" value="7.5"></div><button id="createInvBtn" class="btn-green">Create Invoice</button><button class="btn-red closeModal">Cancel</button></div>`;
+    document.body.appendChild(modal);
+    document.getElementById('createInvBtn').onclick = async () => {
+      const price = parseFloat(document.getElementById('price').value)||0;
+      const docFee = parseFloat(document.getElementById('docFee').value)||0;
+      const shipping = parseFloat(document.getElementById('shipping').value)||0;
+      const taxRate = parseFloat(document.getElementById('tax').value)||0;
+      const subtotal = price + docFee + shipping;
+      const taxAmount = subtotal * taxRate / 100;
+      const total = subtotal + taxAmount;
+      const invoiceNumber = "PF-"+new Date().getFullYear()+Math.floor(Math.random()*10000);
+      const invoiceData = {
+        customerId: source.customerId,
+        customerName: source.customerName,
+        customerEmail: source.customerEmail,
+        vehicle: source.carDetails || `${source.brand} ${source.model}`,
+        invoiceNumber,
+        date: new Date().toLocaleDateString(),
+        lineItems: [
+          { description: "Vehicle Purchase", amount: price },
+          { description: "Documentation Fee", amount: docFee },
+          { description: "Shipping Fee", amount: shipping }
+        ],
+        subtotal: subtotal,
+        shippingFee: shipping,
+        taxRate: taxRate,
+        taxAmount: taxAmount,
+        total: total,
+        paymentInfo: "GCB Bank | Accra | Account: 3091440001056",
+        paymentStatus: "Unpaid",
+        invoiceStatus: "Issued",
+        terms: "Payment due within 30 days",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      };
+      await addDoc(collection(db, "invoices"), invoiceData);
+      await createNotification({
+        userId: source.customerId,
+        title: "New Invoice Issued",
+        message: `A new invoice ${invoiceNumber} has been issued. Total: ${formatCurrency(total)}.`,
+        type: "invoice",
+        relatedCollection: "invoices"
+      });
+      showToast("Invoice created and notification sent"); modal.remove(); renderInvoicesAdmin();
+    };
+    document.querySelectorAll('.closeModal').forEach(btn => btn.onclick = () => modal.remove());
+  }
+
+  function viewInvoice(invoice) {
+    const subtotal = Number(invoice.subtotal || 0);
+    const shippingFee = Number(invoice.shippingFee || 0);
+    const taxRate = Number(invoice.taxRate || 0);
+    const taxAmount = Number(invoice.taxAmount || 0);
+    const totalDue = Number(invoice.total || 0);
+    const lineItemsHtml = invoice.lineItems?.map(item => `<tr><td colspan="1">${item.description}</td><td colspan="1">${formatCurrency(item.amount)}</td>`).join('') || '';
+    const modal = document.createElement('div'); modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width:800px;">
+        <div class="invoice-container">
+          <div class="invoice-header">
+            <div><h2 class="invoice-title">PRO‑FORMA INVOICE</h2><p>Sparojay Ent<br>Accra, Ghana<br>sparojay1023@gmail.com</p></div>
+            <div><strong>${invoice.invoiceNumber}</strong><br>${invoice.date}</div>
+          </div>
+          <div><strong>Customer:</strong> ${invoice.customerName}<br><strong>Email:</strong> ${invoice.customerEmail}</div>
+          <table class="invoice-table"><thead><tr><th>Description</th><th>Amount (GHS)</th></tr></thead><tbody>${lineItemsHtml}<tr><td colspan="1"><strong>Subtotal</strong>NonNullList<td colspan="1">${formatCurrency(subtotal)}NonNullList
+          <tr><td colspan="1"><strong>Shipping Fee</strong>NonNullList<td colspan="1">${formatCurrency(shippingFee)}NonNullList
+          <tr><td colspan="1"><strong>Tax (${taxRate}%)</strong>NonNullList<td colspan="1">${formatCurrency(taxAmount)}NonNullList
+          <tr class="total-row"><td colspan="1"><strong>Total Due</strong>NonNullList<td colspan="1"><strong>${formatCurrency(totalDue)}</strong>NonNullList
+          </tbody></table>
+          <div class="bank-details"><strong>Bank Details:</strong> GCB BANK | MANKESSIM BRANCH | Account: SPARO JAY ENTERPRISE | Acc No: 3091440001056</div>
+          <div><strong>Terms:</strong> ${invoice.terms}</div>
+          <div class="invoice-actions" style="margin-top:1rem;">
+            <button class="print-invoice-btn btn-purple" onclick="window.print()">Print Invoice</button>
+            <button class="close-invoice-btn btn-red" onclick="this.closest('.modal').remove()">Close</button>
+          </div>
+          <div style="margin-top:1rem; border-top:1px dashed #ccc; padding-top:1rem; text-align:center;"><small>Authorised signature: ____________________</small></div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  window.viewInvoice = viewInvoice;
+  window.saveCarById = saveCarById;
+  window.shareCarById = shareCarById;
+
+  // ========== PUBLIC GALLERY (real-time) ==========
+  function renderPublicGallery() {
+    const content = `
+      <div class="container">
+        <h2>🚢 Previously Shipped & Cleared Cars</h2>
+        <div id="publicGalleryGrid" class="gallery-grid">Loading...</div>
+      </div>
+    `;
+    renderPage(content, 'gallery', true);
+    const galleryRef = collection(db, "shippedGallery");
+    onSnapshot(galleryRef, (snapshot) => {
+      const items = snapshot.docs.map(d => d.data());
+      const grid = document.getElementById('publicGalleryGrid');
+      if (!grid) return;
+      if (items.length === 0) { grid.innerHTML = '<div class="glass" style="padding:2rem;">No shipped cars yet.</div>'; return; }
+      grid.innerHTML = items.map(item => `
+        <div class="gallery-item">
+          ${item.mediaType === 'image' ? `<img src="${item.mediaUrl}" alt="${item.title}">` : `<video controls src="${item.mediaUrl}"></video>`}
+          <div class="info">
+            <strong>${item.title}</strong><br>
+            ${item.carBrand ? `${item.carBrand} ${item.carModel}` : ''} ${item.year ? `(${item.year})` : ''}<br>
+            ${item.description || ''}
+          </div>
+        </div>
+      `).join('');
+    });
+  }
+
+  function renderHome() {
+    const content = `
+      <div class="hero">
+        <div>
+          <h1>Your Dream Car Awaits</h1>
+          <p>Direct Japan & Korea Imports | Real‑Time Showroom | Pro‑Forma Invoices</p>
+          <button id="exploreBtn" class="btn-primary">Explore Showroom <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="container">
+        <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin:2rem 0;">
+          <div class="glass" style="text-align:center; padding:1.5rem; flex:1; min-width:180px;"><i class="fas fa-ship" style="font-size:2rem; color:#D4AF37;"></i><h3>Direct Import</h3><p>From Japan/Korea to Ghana</p></div>
+          <div class="glass" style="text-align:center; padding:1.5rem; flex:1; min-width:180px;"><i class="fab fa-whatsapp" style="font-size:2rem; color:#D4AF37;"></i><h3>24/7 WhatsApp</h3><p>Instant support & quotes</p></div>
+          <div class="glass" style="text-align:center; padding:1.5rem; flex:1; min-width:180px;"><i class="fas fa-file-invoice" style="font-size:2rem; color:#D4AF37;"></i><h3>Pro‑Forma Invoice</h3><p>Transparent pricing</p></div>
+        </div>
+        <div id="featuredCars" class="car-grid"><h3>⭐ Featured Vehicles</h3><div>Loading...</div></div>
+        <div id="publicGalleryPreview" class="gallery-grid" style="margin-top:2rem;"><h3>📸 Recently Shipped & Cleared</h3><div>Loading gallery...</div></div>
+      </div>
+    `;
+    renderPage(content, 'home', false);
+    document.getElementById('exploreBtn').onclick = () => renderShowroom();
+    loadFeaturedCars();
+    loadPublicGalleryPreview();
+  }
+
+  async function loadFeaturedCars() {
+    const snap = await getDocs(query(collection(db, "cars"), where("featured", "==", true)));
+    const cars = snap.docs.map(d => d.data()).filter(c => c.visible !== false);
+    const container = document.getElementById('featuredCars');
+    if (!cars.length) { container.innerHTML = '<h3>⭐ Featured Vehicles</h3><div class="glass" style="padding:1rem;">No featured cars yet.</div>'; return; }
+    container.innerHTML = `<h3>⭐ Featured Vehicles</h3><div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:1.5rem;">${cars.map(c => `<div class="car-card"><img src="${c.imageUrl || 'https://via.placeholder.com/400x220'}" style="width:100%; height:160px; object-fit:cover;"><div class="car-info"><h4>${c.brand} ${c.model}</h4><div class="car-price">${c.price}</div></div></div>`).join('')}</div>`;
+  }
+
+  async function loadPublicGalleryPreview() {
+    const container = document.getElementById('publicGalleryPreview');
+    const snap = await getDocs(query(collection(db, "shippedGallery"), orderBy("createdAt", "desc"), limit(6)));
+    const items = snap.docs.map(d => d.data());
+    if (items.length === 0) {
+      container.innerHTML = '<h3>📸 Recently Shipped & Cleared</h3><div class="glass" style="padding:1rem;">No shipped cars yet. Check back soon!</div>';
+      return;
+    }
+    container.innerHTML = `<h3>📸 Recently Shipped & Cleared</h3><div class="gallery-grid">${items.map(item => `
+      <div class="gallery-item">
+        ${item.mediaType === 'image' ? `<img src="${item.mediaUrl}" alt="${item.title}">` : `<video controls src="${item.mediaUrl}"></video>`}
+        <div class="info">
+          <strong>${item.title}</strong><br>
+          ${item.carBrand ? `${item.carBrand} ${item.carModel}` : ''} ${item.year ? `(${item.year})` : ''}
+        </div>
+      </div>
+    `).join('')}</div>`;
+  }
+
+  function setupNav() {
+    document.getElementById('navHome').onclick = () => renderHome();
+    document.getElementById('navShowroom').onclick = () => renderShowroom();
+    document.getElementById('navPreOrder').onclick = () => renderPreOrderForm();
+    document.getElementById('navTrack').onclick = () => renderTracking();
+    document.getElementById('navDashboard').onclick = () => currentUser ? renderCustomerDashboard() : showToast("Login first","error");
+    document.getElementById('navGallery').onclick = () => renderPublicGallery();
+    document.getElementById('navAdmin').onclick = () => currentUser?.role === 'admin' ? renderAdminPanel() : showAuthModal();
+    document.getElementById('authBtn').onclick = () => showAuthModal();
+    document.getElementById('logoutSpan').onclick = () => logout();
+    document.getElementById('floatWhatsApp').onclick = () => window.open(`https://wa.me/447348624530`, '_blank');
+    document.getElementById('notificationIcon')?.addEventListener('click', () => { if(currentUser) renderCustomerDashboard(); });
+  }
+
+  renderHome(); setupNav();
+</script>
+
+<!-- ======================= FIREBASE SECURITY RULES (COPY TO FIREBASE CONSOLE) ======================= -->
+<!--
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+    match /users/{userId} {
+      allow create: if signedIn() && request.auth.uid == userId;
+      allow read, update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+    match /cars/{carId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    match /wishlists/{wishlistId} {
+      allow create: if signedIn()
+        && request.resource.data.customerId == request.auth.uid;
+      allow read, update, delete: if isAdmin()
+        || (signedIn() && resource.data.customerId == request.auth.uid);
+    }
+    match /shippedGallery/{mediaId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    match /enquiries/{enquiryId} {
+      allow create: if signedIn()
+        && request.resource.data.customerId == request.auth.uid;
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.customerId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+    match /preOrders/{preOrderId} {
+      allow create: if signedIn()
+        && request.resource.data.customerId == request.auth.uid;
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.customerId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+    match /invoices/{invoiceId} {
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.customerId == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+    match /notifications/{notificationId} {
+      allow create: if isAdmin() || signedIn();
+      allow read, update: if isAdmin()
+        || (signedIn() && resource.data.userId == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+  }
+}
+-->
+<!-- Firebase Storage Rules (copy to Firebase Console) -->
+<!--
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn()
+        && firestore.exists(/databases/(default)/documents/users/$(request.auth.uid))
+        && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+    match /cars/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+    match /shipped-gallery/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.size < 200 * 1024 * 1024
+        && (
+          request.resource.contentType.matches('image/.*') ||
+          request.resource.contentType.matches('video/.*')
+        );
+    }
+  }
+}
+-->
+</body>
+</html>
